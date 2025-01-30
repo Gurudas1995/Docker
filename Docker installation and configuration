@@ -1,0 +1,20 @@
+# How to install and Configure Docker on EC2 instance #
+Pre-requisite - Running EC2 instance having allowed SSH connection on port 22 in inbound rule of SG.
+step 1 - Connect the EC2 instance using SSH connection (open Putty app and put hostname as "ec2-user@public IP address")
+step 2 - update repos
+         sudo yum update -y
+step 3 - install docker
+         sudo yum install -y docker
+step 4 - Start docker demon
+         Sudo Sevice docker start
+step 5 - to start docker demon automaticaly during next OS reboot
+         sudo chkconfig docker on
+step 6 - Verify installation
+         docker --version
+step 7 - add account to docker
+         sudo usermod -aG docker ec2-user
+step 8 - Verify user
+         grep -i -e 'docker' /etc/group
+step 9 - to access docker as end user logout from current session and connect again and verify conncetion
+         docker info
+
