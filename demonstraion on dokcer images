@@ -1,0 +1,39 @@
+# Demonstration on Docker Images #
+Objective
+I. List, Provision and manage docker images
+II. Customize Docker images using containers
+===================================================================================================================================
+Step 1: working with Docker imagaes on host
+  A: If you want to log in into your docker hub account, you can use following commands with valid credentials
+      Command: $ docker login (optional)
+  B: Images can be downloaded from docker hub 
+      Command: $ docker pull ubuntu:latest
+step 2: to See all the downloaded images
+  command: $ docker images
+  command: $ docker image ls
+step 3: Load image into docker container
+  A: to run image from downloaded images from docker hub
+    command: $ docker run -t -i ubuntu:latest /bin/bash
+  B: to run the local registry
+    command: $ docker run -d -p 5000:5000 --restart=always --name registry registry:2
+step 4: tagging and untagging docker images
+  tag: tag above 'ubuntu:latest' image with new tag this will save as new variant
+    command: $ docker tag ubuntu:latest ubuntoproj:ver1
+  untag: to untag image (this will remove the image)
+    command: $ docker rmi ubuntuproj:ver1
+step 5: Removing docker images
+  command: $ docker rmi ubuntu:latest
+step 6: for forceful deletion use -f
+  command: $ docker rmi -f ubuntu:latest
+step 7: Launch container using existing image with name 'ubuntuproj'
+  command: $ docker run --name ubuntuproj -t -i ubuntu:latest /bin/bash
+step 8: Install new packages inside container 
+  command: $ apt-get pdate
+  command: $ apt-get install figlet #figlet package used for printing the inputs using large characters
+step 9: exit the container using exit command
+step 10: Commit the changes
+  command: $ docker commit -m "version 1.0" -a "guru" ubuntuproj ubuntu:1.1
+    note: '-m' used for mentioning commit message
+    note: '-a' allows to specify an author for update
+step 11: Launch new container using customized image
+  command: $ docker run -it ubuntu:1.1 /bin/bash
