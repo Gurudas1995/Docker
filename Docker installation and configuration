@@ -17,4 +17,45 @@ step 8 - Verify user
          grep -i -e 'docker' /etc/group
 step 9 - to access docker as end user logout from current session and connect again and verify conncetion
          docker info
+===========================================================================================================================
+# Launching interactive containers #
+step 1 - verify the status of docker running on ec2
+         sudo service docker status
+step 2 - Launch interactive container
+         docker run --rm=false -i -t ubuntu:latest /bin/bash
+         # –i flag -> to make an interactive connection using standard input (STDIN) in container.
+         # –t flag -> to assign a pseudo terminal/TTY inside the container that attaches stdin and stdout.
+         # --rm=false -> to automatically remove the container when it exits. Usually, we use --rm flag for
+           commands that run-in foreground, to clean up the container after the command has completed.
+step 3 - To list the processes running on the container run the following command:
+         ps aux
+step 4 - to disconnect temporarily from the container without terminating it press ctrl+p+q
+step 5 - to list all containers including terminated/shutdown use below command
+         docker ps -a
+step 6 - to update container's CPU share and memory configuration
+         docker update --cpu -shares 512 -m 10M --memory-swap-1 <container ID>
+step 7 - to verify CPU shares and memeory of container
+         docker inspect <container ID>
+===========================================================================================================================
+# launching Daemonized containers #
+step 1 - verify the status of docker running on ec2
+         sudo service docker status
+step 2 - Launch daemonized container
+         docker run --name my_daemonized-d ubuntu/bin/sh-c "while true; do echo my daemonized container;sleep 1;done"
+         # A simple while loop is used in an ubuntu bash shell to create an ongoing background process to print my
+           daemonized container with a lag of 1 second.
+         # -d flag -> to run a container in the background.
+         # --name=container_name -> to assign a user-defined name to container.
+step 3 - to list all container use below command
+         docker ps
+step 4 - To see standard output of container running in backgroud
+         docker logs my_daemonized
+step 5 - To start a new process inside an already running daemonized docker container first create a new background process,
+         docker exec -d my_daemonized mkdir/temp/test
+step 6 - run bash shell inside and get terminal access on same container
+         docker exec -it my_daemonized/bin/bash
+step 7 - verify temp directory
+         cd temp
+===========================================================================================================================
+
 
