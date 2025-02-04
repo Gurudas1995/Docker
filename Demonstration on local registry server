@@ -1,0 +1,30 @@
+# Demonstration on local registry server #
+- name : Demonstration on Local registry 
+  step 1: Launch an EC2 instance
+  step 2: update install packages
+    command: sudo yum update -y
+  step 3: install docker package
+    command: sudo yum install -y docker
+  step 4: start docker service
+    command: sudo service docker start
+  step 5: to start docker daemon automatically after every reboot 
+    command: sudo systemctl enable docker
+  step 6: add ssm user to docker group
+    command: sudo su
+    command: usermod -aG docker ssm-user
+    command: su - ssm-user
+  step 7: run local registry
+    command: docker run -d -p 5000:5000 --restart=always --name registry registry:2
+  step 8: Copy an image from docker hub to local registry i.e. pull ubuntu 16.4 image 
+    command: docker pull ubuntu:16.4
+  step 9: tag the image as localhost
+    command: docker tag ubuntu:16.4 localhost:5000/my-ubuntu
+  step 10: push the image to local registry
+    command: docker push localhost:5000/my-ubuntu
+  step 11: remove locally cached images
+    command: docker rmi ubuntu:16.4
+    command: docker rmi localhost:5000/my-ubuntu
+  step 12: Now pull back the localhost:5000/my-ubuntu from local registry
+    command: docker pull localhost:5000/my-ubuntu
+  step 13: stop local registry
+    command: docker container stop registry
