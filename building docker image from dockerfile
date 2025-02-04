@@ -1,0 +1,25 @@
+# building a docker image from dockerfile #
+Step 1: create a docker file # connect to ec2 instance using ssh to create dockerfile which consist of dockerfile instruction
+  Command: vi dockerfile
+    - inside docker file type set of instruction #use insert button to strt writing
+      // FROM ubuntu
+      // RUN apt-get update
+      // RUN apt-get install nginx -y
+      // CMD ["nginx", "-g", "daemon off;"]
+      // CMD echo "This is demo"
+    - exit docker file by pressing below keys in order
+      // Escape:wq #include ":" as well
+step 2: Build docker image
+  command: docker image build -t demo1:1.0 -f dockerfile .
+step 3: verify the image
+  command: docker images
+step 4: Run a container
+  command: docker container run -it --name demo1 demo1:1.0 /bin/bash
+step 5: verify the running container
+  command: ls # it will show all the files contain in the container
+step 6: stop the container
+  command: docker container stop demo1
+step 7: remove the container
+  command: docker container rm demo 1 # OR docker container rm -f demo 1 (for forcefull deletion)
+step 8: remove the image
+  command: docker rmi demo1:1.0
