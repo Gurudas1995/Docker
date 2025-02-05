@@ -1,0 +1,15 @@
+# demonstration on docker container linking
+- Objective:
+  I. Link two containers with each other
+  II. Extract linking details of these two containers
+Step 1: Launch EC2 instance and install docker on it
+step 2: Launch a source container
+  command: docker run --name db -e MYSQL_ROOT_PASSWORD=password -d mysql:latest
+    # here daemonized mysql container will launch with name 'db' and with password 'password'
+step 3: Launch destination / receipient container and link it with source container
+  command: docker run -d -p --name myweb --link db:webdb tomcat
+    # here daemonized tomact container will launch and linked with source container 'db'
+step 4: Extract linking details of these two containers
+  command: docker inspect -f "{{.HostConfig.Links }}" myweb
+step 5: clean up the resources.
+
