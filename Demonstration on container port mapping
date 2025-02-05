@@ -1,0 +1,24 @@
+# Demonstration on container port mapping #
+Step 1: Create EC2 instance having SSH port open
+step 2: install docker on EC2 instance and verify the docker version
+step 3: create container
+  command: docker run -d --name web -p 80:80 httpd 
+    // -d - for daemonized container
+    // -p for port
+    // httpd - container having https service running - httpd apache server
+step 4: check details of running container 
+  command: docker inspect <container id>/<docker name> # will show all metadate
+step 5: to find IP address of docker container
+  command: docker inspect <container name> | grep IPAddress
+step 6: Access the port of container
+  command: docker port <container name>
+step 7: Access the container on docker host,i.e view the application page on ssh session
+  command: curl -s http://<IP address of container>:<container port>
+step 8: access the web page in browser
+  command: http://<public IP of EC2 hosting docker container>:<port number associated>
+step 9: stop docker container
+  command: docker container stop <container name>
+step 10: remove the container
+  command: docker container rm <contaniner name>  #use -f for forcerful deletion
+step 11: remove the image
+  command: docker rmi <image ID> #use -f for forcerful deletion
