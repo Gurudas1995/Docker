@@ -1,0 +1,40 @@
+# Docker Voluem Demonstration 
+# Objective
+  # I. Create Docker Volume and List the volumes
+  # II. Mount the volume to a Running Container
+  # III. Inspect and Remove the Volume
+
+
+Step 1: Create EC2 Instance, allow SSH connection at port 22, install Docker on it
+Step 2: Login too EC2 Instance
+Step 3: run as root user using command "sudo su"
+step 4: start docker service
+  command: systemctl start docker
+step 5: create a volume
+  command: docker volume create <vol name>
+step 6: list the volumes
+  command: docker volume ls
+step 7: find the mount path for created docker volume
+  command: docker volume inspect
+step 8: create a sample html doc file in above mountpath
+  commmand: cd /mountpath
+  command: cat > index.html
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+      <title>Page Title</title>
+      </head>
+      <body>
+      <h1> !!! This is the Demo for testing Volume in Docker Container !!!</h1>
+      <h3> !!! This is an example page to for Docker !!! </h3>
+      </body>
+      </html>
+      ctrl+c
+step 9: launch an apache container with port 80 and mounting to this volume
+  command: docker run -dp 80:80 -name webapp -v <volume name>:/usr/local/apache2/htdocs httpd
+step 10: open public IP address of ec2 instance and web browser and verify if index.html file showing or not.
+step 11: remove docker vol
+  command: docker volume rm my-vol
+step 12: delete unused volume 
+  command: docker volume prune
+step 13: delete the resources and stop the docker service and terminate ec2 instance
