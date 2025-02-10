@@ -1,0 +1,37 @@
+# Docker Netowerking
+Step 1: connect to EC2 instance using SSH where your docker is installed
+step 2: enter into root user mode
+  command: sudo su -
+step 3: start docker service
+  command: systemctl start docker
+step 4: list the networks present on docker
+  command: docker network ls
+step 5: create a new bridge network with name demo-net
+  command: docker network create --driver bridge demo-net
+step 6: inspect the created network
+  command: docker network ls
+  command: docker network inspect demo-net
+step 7: create a mysql server with name - mysqlsever and password - admin123
+  command: docker run --name mysqlserver -e MYSQL_ROOT_PASSWORD=admin123 -d mysql
+step 8: verify the container 
+  command: docker ps -a
+step 9: create another mysql server to connect 'mysqlserver' container
+  command: docker run -it --network demo-net --name mysqlclient mysql mysql -hmysqlsource -uroot -p
+   // it will prompt for password, enter the password of 'mysqlsource'
+   // it will show error - ERROR 2005 (HY000):Unknown MySQL server host 'mysqlsource' (-2)
+   // cause - 'mysqlsource' not connected to 'demo-net' bridge hence both containers not connected yet
+   // stop and remove the 'mysqlclient'
+   // can skip this step 9 
+step 10: add 'mysqlserver' to demo-net network
+  command: docker network connect demo-net mysqlserver
+step 11: verify the server attahced to netowork or not
+  command: docker network inspect demo-net
+step 12: create another mysql server 'mysqlclient' to connect 'mysqlserver'
+  command: docker run -it --network demo-net --name mysqlclient mysql mysql -hmysqlsource -uroot -p
+step 13: it will ask for password after entering pass you will connceted to mysqlclient
+step 14: Suppose if you are disconnected from docker and again now you want to connect both databases
+  command: docker exec -it mysqlclient mysql -h mysqlserver -u root -p
+    //you will able to login in to mysqlclient
+step 15: to verify the connection
+  command: show databases;
+step 16: erase the resources and terminate the ec2 instance
